@@ -28,6 +28,7 @@ import software.amazon.awssdk.annotations.Immutable;
 import software.amazon.awssdk.annotations.SdkInternalApi;
 import software.amazon.awssdk.utils.CollectionUtils;
 import software.amazon.awssdk.utils.StringUtils;
+import software.amazon.awssdk.utils.ToString;
 import software.amazon.awssdk.utils.Validate;
 import software.amazon.awssdk.utils.http.SdkHttpUtils;
 
@@ -147,6 +148,13 @@ final class DefaultSdkHttpFullRequest implements SdkHttpFullRequest {
                 .method(httpMethod)
                 .headers(headers)
                 .content(content);
+    }
+
+    @Override
+    public String toString() {
+        return ToString.builder("DefaultSdkHttpFullRequest")
+                       .add("uri", getUri())
+                       .build();
     }
 
     /**
@@ -294,5 +302,4 @@ final class DefaultSdkHttpFullRequest implements SdkHttpFullRequest {
             return new DefaultSdkHttpFullRequest(this);
         }
     }
-
 }

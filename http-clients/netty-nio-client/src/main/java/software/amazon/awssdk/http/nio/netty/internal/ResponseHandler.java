@@ -110,13 +110,10 @@ class ResponseHandler extends SimpleChannelInboundHandler<HttpObject> {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         RequestContext requestContext = ctx.channel().attr(REQUEST_CONTEXT_KEY).get();
-        log.error("Exception processing request: {}", requestContext.sdkRequest(), cause);
-        runAndLogError("SdkHttpResponseHandler threw an exception",
-            () -> {
-                requestContext.handler().exceptionOccurred(cause);
-            });
+//        log.error("Exception processing request: {}", requestContext.sdkRequest(), cause);
+        runAndLogError("SdkHttpResponseHandler threw an exception", () -> requestContext.handler().exceptionOccurred(cause));
         runAndLogError("Could not release channel back to the pool", () -> closeAndRelease(ctx));
     }
 
